@@ -1,0 +1,12 @@
+[submodule "aevatar-station"]
+	path = aevatar-station
+	url = aelf:aevatarAI/aevatar-station.git
+	branch = feature/tool
+[submodule "aevatar-gagents"]
+	path = aevatar-gagents
+	url = aelf:aevatarAI/aevatar-gagents
+	branch = feature/tool-workflow
+[submodule "aevatar-workshop"]
+	path = aevatar-workshop
+	url = aelf:aevatarAI/aevatar-workshop
+	branch = feature/tool
