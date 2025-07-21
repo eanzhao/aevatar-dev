@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resource", "resource", "{0C626FE1-50C2-43FB-AD2D-031681804123}"
 				ProjectSection(SolutionItems) = preProject
 								Directory.Build.props = Directory.Build.props
+								Directory.Build.targets = Directory.Build.targets
+					ConditionalReference.Summary.md = ConditionalReference.Summary.md
 				EndProjectSection
 EndProject
 
@@ -168,6 +170,14 @@ Global
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Release|Any CPU.Build.0 = Release|Any CPU
+					{11605857-0959-406A-8563-DAB09E78772D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+					{11605857-0959-406A-8563-DAB09E78772D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+					{C531EDB6-7441-49A4-B250-75718BEDB2C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+					{C531EDB6-7441-49A4-B250-75718BEDB2C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+					{B52800ED-309F-48D5-965F-3154F47B2477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+					{B52800ED-309F-48D5-965F-3154F47B2477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+					{057FBEE7-E1EC-457C-A2B5-9C5FA17574F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+					{057FBEE7-E1EC-457C-A2B5-9C5FA17574F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 				EndGlobalSection
 				GlobalSection(NestedProjects) = preSolution
 								{163DB313-21C2-4292-8795-A5E9ED200CC2} = {7BCCAB62-8E07-46AB-8C20-CD40539DE2C0}

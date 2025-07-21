@@ -4,8 +4,4 @@
         <DefaultTargetFramework>net9.0</DefaultTargetFramework>
         <UseLocalProjects Condition="'$(UseLocalProjects)' == ''">true</UseLocalProjects>
     </PropertyGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\aevatar-station\framework\src\Aevatar.Core.Abstractions\Aevatar.Core.Abstractions.csproj" />
-    </ItemGroup>
 </Project>

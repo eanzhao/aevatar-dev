@@ -1,0 +1,102 @@
+<Project>
+  <!--
+  Reverse Zero-Intrusion Cross-Module Reference System
+  
+  Converts PackageReferences to ProjectReferences in development mode
+  without modifying any submodule files
+  -->
+
+  <PropertyGroup>
+    <!-- Development mode by default -->
+    <UseLocalProjects Condition="'$(UseLocalProjects)' == ''">true</UseLocalProjects>
+    
+    <!-- Define root paths -->
+    <AevatarRootPath>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), 'aevatar-dev.sln'))</AevatarRootPath>
+    <AevatarStationPath>$(AevatarRootPath)\aevatar-station</AevatarStationPath>
+    <AevatarGAgentsPath>$(AevatarRootPath)\aevatar-gagents</AevatarGAgentsPath>
+    <AevatarWorkshopPath>$(AevatarRootPath)\aevatar-workshop</AevatarWorkshopPath>
+  </PropertyGroup>
+
+  <!-- Define package to project mappings -->
+  <ItemGroup>
+    <!-- aevatar-station framework mappings -->
+    <PackageProjectMapping Include="Aevatar.Core.Abstractions">
+      <ProjectPath>$(AevatarStationPath)\framework\src\Aevatar.Core.Abstractions\Aevatar.Core.Abstractions.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.Core">
+      <ProjectPath>$(AevatarStationPath)\framework\src\Aevatar.Core\Aevatar.Core.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.EventSourcing.Core">
+      <ProjectPath>$(AevatarStationPath)\framework\src\Aevatar.EventSourcing.Core\Aevatar.EventSourcing.Core.csproj</ProjectPath>
+    </PackageProjectMapping>
+    
+    <!-- aevatar-station other components -->
+    <PackageProjectMapping Include="Aevatar.SignalR">
+      <ProjectPath>$(AevatarStationPath)\signalR\src\Aevatar.SignalR\Aevatar.SignalR.csproj</ProjectPath>
+    </PackageProjectMapping>
+    
+    <!-- aevatar-gagents mappings -->
+    <PackageProjectMapping Include="Aevatar.GAgents.AI.Abstractions">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.AI.Abstractions\Aevatar.GAgents.AI.Abstractions.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.AIGAgent">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.AIGAgent\Aevatar.GAgents.AIGAgent.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.Basic">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.Basic\Aevatar.GAgents.Basic.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.Executor">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.Executor\Aevatar.GAgents.Executor.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.PsiOmni">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.PsiOmni\Aevatar.GAgents.PsiOmni.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.GroupChat">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.GroupChat\Aevatar.GAgents.GroupChat.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.MCP">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.MCP\Aevatar.GAgents.MCP.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <PackageProjectMapping Include="Aevatar.GAgents.Router">
+      <ProjectPath>$(AevatarGAgentsPath)\src\Aevatar.GAgents.Router\Aevatar.GAgents.Router.csproj</ProjectPath>
+    </PackageProjectMapping>
+    <!-- Add more mappings as needed -->
+  </ItemGroup>
+
+  <!-- Convert PackageReferences to ProjectReferences in development mode -->
+  <Target Name="ConvertPackagesToProjects" 
+          BeforeTargets="CollectPackageReferences"
+          Condition="'$(UseLocalProjects)' == 'true'">
+    
+    <!-- Find matching PackageReferences -->
+    <ItemGroup>
+      <_MatchedPackages Include="@(PackageReference)" 
+                        Condition="'%(Identity)' != '' and '@(PackageProjectMapping->WithMetadataValue('Identity', '%(Identity)'))' != ''" />
+    </ItemGroup>
+
+    <!-- Process each matched package -->
+    <ItemGroup>
+      <_ConvertedReferences Include="@(_MatchedPackages)">
+        <ProjectPath>@(PackageProjectMapping->WithMetadataValue('Identity', '%(Identity)')->Metadata('ProjectPath'))</ProjectPath>
+      </_ConvertedReferences>
+    </ItemGroup>
+
+    <!-- Remove matched PackageReferences and add ProjectReferences -->
+    <ItemGroup>
+      <PackageReference Remove="@(_MatchedPackages)" />
+      <ProjectReference Include="%(_ConvertedReferences.ProjectPath)" 
+                       Condition="Exists('%(_ConvertedReferences.ProjectPath)')" />
+    </ItemGroup>
+
+    <!-- Log conversions -->
+    <Message Text="[Package->Project] Converting in $(MSBuildProjectName):" 
+             Condition="'@(_MatchedPackages)' != ''"
+             Importance="high" />
+    <Message Text="  - %(_MatchedPackages.Identity) -> %(_ConvertedReferences.ProjectPath)" 
+             Condition="'@(_MatchedPackages)' != '' and Exists('%(_ConvertedReferences.ProjectPath)')"
+             Importance="high" />
+    <Warning Text="  - %(_MatchedPackages.Identity) -> Project not found: %(_ConvertedReferences.ProjectPath)" 
+             Condition="'@(_MatchedPackages)' != '' and !Exists('%(_ConvertedReferences.ProjectPath)')" />
+  </Target>
+
+</Project> 
