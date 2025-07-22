@@ -7,10 +7,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aevatar-workshop", "aevatar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resource", "resource", "{0C626FE1-50C2-43FB-AD2D-031681804123}"
 				ProjectSection(SolutionItems) = preProject
-								Directory.Build.props = Directory.Build.props
-								Directory.Build.targets = Directory.Build.targets
+																				Directory.Build.props = Directory.Build.props
 					ConditionalReference.Summary.md = ConditionalReference.Summary.md
 				EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".claude", ".claude", "{46DD7F91-2024-493E-A2BC-46EF3858142D}"
+	ProjectSection(SolutionItems) = preProject
+		.claude\spec-config.json = .claude\spec-config.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "commands", "commands", "{EF95AE9E-C525-4926-B3CF-C6CDEC7C5CAE}"
+	ProjectSection(SolutionItems) = preProject
+		.claude\commands\spec-create.md = .claude\commands\spec-create.md
+		.claude\commands\spec-design.md = .claude\commands\spec-design.md
+		.claude\commands\spec-execute.md = .claude\commands\spec-execute.md
+		.claude\commands\spec-list.md = .claude\commands\spec-list.md
+		.claude\commands\spec-requirements.md = .claude\commands\spec-requirements.md
+		.claude\commands\spec-status.md = .claude\commands\spec-status.md
+		.claude\commands\spec-tasks.md = .claude\commands\spec-tasks.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{FD017B49-2E6E-4D1A-9CF7-97234DE8A2EE}"
+	ProjectSection(SolutionItems) = preProject
+		.claude\scripts\generate-commands.bat = .claude\scripts\generate-commands.bat
+		.claude\scripts\generate-commands.sh = .claude\scripts\generate-commands.sh
+		.claude\scripts\generate-commands-launcher.sh = .claude\scripts\generate-commands-launcher.sh
+		.claude\scripts\README.md = .claude\scripts\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{F7E33A6F-1EAA-45FD-A53F-75B4BE89B98A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{5AE1F384-3FCB-4BBC-A873-FFAE4B954517}"
+	ProjectSection(SolutionItems) = preProject
+		.claude\templates\design-template.md = .claude\templates\design-template.md
+		.claude\templates\requirements-template.md = .claude\templates\requirements-template.md
+		.claude\templates\tasks-template.md = .claude\templates\tasks-template.md
+	EndProjectSection
 EndProject
 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.Core.Abstractions", "aevatar-station\framework\src\Aevatar.Core.Abstractions\Aevatar.Core.Abstractions.csproj", "{163DB313-21C2-4292-8795-A5E9ED200CC2}"
@@ -207,5 +239,10 @@ Global
 								{D78F83AB-7DCC-41D7-8266-D1572F7F3C4F} = {B831530D-8FE1-49ED-8C0B-76435C7D3CA8}
 								{3792AF05-DF01-46D5-BC55-62D4E5C8E51D} = {B831530D-8FE1-49ED-8C0B-76435C7D3CA8}
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2} = {B831530D-8FE1-49ED-8C0B-76435C7D3CA8}
+					{46DD7F91-2024-493E-A2BC-46EF3858142D} = {0C626FE1-50C2-43FB-AD2D-031681804123}
+					{EF95AE9E-C525-4926-B3CF-C6CDEC7C5CAE} = {46DD7F91-2024-493E-A2BC-46EF3858142D}
+					{FD017B49-2E6E-4D1A-9CF7-97234DE8A2EE} = {46DD7F91-2024-493E-A2BC-46EF3858142D}
+					{F7E33A6F-1EAA-45FD-A53F-75B4BE89B98A} = {46DD7F91-2024-493E-A2BC-46EF3858142D}
+					{5AE1F384-3FCB-4BBC-A873-FFAE4B954517} = {46DD7F91-2024-493E-A2BC-46EF3858142D}
 				EndGlobalSection
 EndGlobal

@@ -2,6 +2,5 @@
     <PropertyGroup>
         <CompatibilityTargetFrameworks>netstandard2.0</CompatibilityTargetFrameworks>
         <DefaultTargetFramework>net9.0</DefaultTargetFramework>
-        <UseLocalProjects Condition="'$(UseLocalProjects)' == ''">true</UseLocalProjects>
     </PropertyGroup>
 </Project>
