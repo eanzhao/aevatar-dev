@@ -321,6 +321,45 @@ await aiAgent.ConfigureMCPServersAsync(new List<IMCPGAgent>
 3. **延迟注册**：工具只在需要时才注册到 Kernel
 4. **并行处理**：支持同时配置多个 MCP 服务器
 
+## 🔧 资源发现机制
+
+### 自动资源发现（2024年1月更新）
+
+系统支持通过资源上下文自动发现 MCPGAgent 实例：
+
+```csharp
+// 在 PrepareResourcesAsync 方法中
+foreach (var grainId in context.AvailableResources)
+{
+    // 使用 GrainType 识别 MCPGAgent
+    var grainTypeString = grainId.Type.ToString();
+    if (grainTypeString.Contains("mcp", StringComparison.OrdinalIgnoreCase))
+    {
+        try
+        {
+            var mcpAgent = await gAgentFactory.GetGAgentAsync<IMCPGAgent>(grainId);
+            if (mcpAgent != null)
+            {
+                mcpAgentsFound.Add(mcpAgent);
+                Logger.LogInformation("Found MCPGAgent resource: {GrainId}, Type: {GrainType}", 
+                    grainId, grainTypeString);
+            }
+        }
+        catch (InvalidCastException)
+        {
+            Logger.LogWarning("Resource {GrainId} has MCP type but cannot be cast to IMCPGAgent", 
+                grainId);
+        }
+    }
+}
+```
+
+### 关键改进
+
+- **基于 GrainType 的识别**：使用元数据而非运行时类型转换
+- **更可靠的类型获取**：使用泛型 `GetGAgentAsync<IMCPGAgent>` 方法
+- **增强的错误处理**：区分不同类型的失败情况
+
 ## 🧪 测试建议
 
 1. **单元测试**：测试 `ConfigureMCPServersAsync` 的各种输入场景

@@ -217,6 +217,7 @@
                 <a href="#architecture">架构</a>
                 <a href="#implementation">实现</a>
                 <a href="#usage">使用</a>
+                <a href="#resource-discovery">资源发现</a>
                 <a href="#summary">总结</a>
             </nav>
         </div>
@@ -543,6 +544,45 @@ await aiAgent.ConfigureMCPServersAsync(new List&lt;IMCPGAgent&gt;
                     <li><strong>延迟注册</strong>：工具只在需要时才注册到 Kernel</li>
                     <li><strong>并行处理</strong>：支持同时配置多个 MCP 服务器</li>
                 </ol>
+            </section>
+
+            <section id="resource-discovery">
+                <h2>🔧 资源发现机制</h2>
+                
+                <h3>自动资源发现（2024年1月更新）</h3>
+                <p>系统支持通过资源上下文自动发现 MCPGAgent 实例：</p>
+                
+                <pre><code class="language-csharp">// 在 PrepareResourcesAsync 方法中
+foreach (var grainId in context.AvailableResources)
+{
+    // 使用 GrainType 识别 MCPGAgent
+    var grainTypeString = grainId.Type.ToString();
+    if (grainTypeString.Contains("mcp", StringComparison.OrdinalIgnoreCase))
+    {
+        try
+        {
+            var mcpAgent = await gAgentFactory.GetGAgentAsync&lt;IMCPGAgent&gt;(grainId);
+            if (mcpAgent != null)
+            {
+                mcpAgentsFound.Add(mcpAgent);
+                Logger.LogInformation("Found MCPGAgent resource: {GrainId}, Type: {GrainType}", 
+                    grainId, grainTypeString);
+            }
+        }
+        catch (InvalidCastException)
+        {
+            Logger.LogWarning("Resource {GrainId} has MCP type but cannot be cast to IMCPGAgent", 
+                grainId);
+        }
+    }
+}</code></pre>
+
+                <h3>关键改进</h3>
+                <ul>
+                    <li><strong>基于 GrainType 的识别</strong>：使用元数据而非运行时类型转换</li>
+                    <li><strong>更可靠的类型获取</strong>：使用泛型 <code>GetGAgentAsync&lt;IMCPGAgent&gt;</code> 方法</li>
+                    <li><strong>增强的错误处理</strong>：区分不同类型的失败情况</li>
+                </ul>
             </section>
 
             <section id="testing">

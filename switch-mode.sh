@@ -3,8 +3,6 @@
 # 切换 Aevatar 项目的开发模式和发布模式
 # 用法: ./switch-mode.sh <dev|release>
 
-set -e
-
 # 检查参数
 if [ $# -lt 1 ]; then
     echo "用法: $0 <dev|release>"
@@ -29,7 +27,8 @@ echo "🔄 切换到 $MODE 模式..."
 echo "📁 项目根目录: $ROOT_PATH"
 
 # 定义包映射（使用平行数组以兼容 bash 3.x）
-PACKAGE_NAMES=(
+# Aevatar.Core 相关包
+CORE_PACKAGE_NAMES=(
     "Aevatar.Core.Abstractions"
     "Aevatar.Core"
     "Aevatar.EventSourcing.Core"
@@ -39,7 +38,7 @@ PACKAGE_NAMES=(
     "Aevatar"
 )
 
-PACKAGE_PATHS=(
+CORE_PACKAGE_PATHS=(
     "aevatar-station/framework/src/Aevatar.Core.Abstractions/Aevatar.Core.Abstractions.csproj"
     "aevatar-station/framework/src/Aevatar.Core/Aevatar.Core.csproj"
     "aevatar-station/framework/src/Aevatar.EventSourcing.Core/Aevatar.EventSourcing.Core.csproj"
@@ -49,14 +48,69 @@ PACKAGE_PATHS=(
     "aevatar-station/framework/src/Aevatar/Aevatar.csproj"
 )
 
+# Aevatar.GAgents 相关包
+GAGENTS_PACKAGE_NAMES=(
+    "Aevatar.GAgents.AElf"
+    "Aevatar.GAgents.AI.Abstractions"
+    "Aevatar.GAgents.AIGAgent"
+    "Aevatar.GAgents.AIGAgent.Core"
+    "Aevatar.GAgents.Basic"
+    "Aevatar.GAgents.ChatAgent"
+    "Aevatar.GAgents.Executor"
+    "Aevatar.GAgents.GraphRetrievalAgent"
+    "Aevatar.GAgents.GroupChat"
+    "Aevatar.GAgents.GroupChat.Core"
+    "Aevatar.GAgents.GroupChat.GroupMember"
+    "Aevatar.GAgents.InputGAgent"
+    "Aevatar.GAgents.MCP"
+    "Aevatar.GAgents.MCP.Core"
+    "Aevatar.GAgents.MultiAIChatGAgent"
+    "Aevatar.GAgents.PsiOmni"
+    "Aevatar.GAgents.PsiOmni.Plugins"
+    "Aevatar.GAgents.Pumpfun"
+    "Aevatar.GAgents.Router"
+    "Aevatar.GAgents.SemanticKernel"
+    "Aevatar.GAgents.SocialGAgent"
+    "Aevatar.GAgents.Telegram"
+    "Aevatar.GAgents.Twitter"
+)
+
+GAGENTS_PACKAGE_PATHS=(
+    "aevatar-gagents/src/Aevatar.GAgents.AElf/Aevatar.GAgents.AElf.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.AI.Abstractions/Aevatar.GAgents.AI.Abstractions.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.AIGAgent/Aevatar.GAgents.AIGAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.AIGAgent.Core/Aevatar.GAgents.AIGAgent.Core.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Basic/Aevatar.GAgents.Basic.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.ChatAgent/Aevatar.GAgents.ChatAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Executor/Aevatar.GAgents.Executor.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.GraphRetrievalAgent/Aevatar.GAgents.GraphRetrievalAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.GroupChat/Aevatar.GAgents.GroupChat.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.GroupChat.Core/Aevatar.GAgents.GroupChat.Core.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.GroupChat.GroupMember/Aevatar.GAgents.GroupChat.GroupMember.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.InputGAgent/Aevatar.GAgents.InputGAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.MCP/Aevatar.GAgents.MCP.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.MCP.Core/Aevatar.GAgents.MCP.Core.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.MultiAIChatGAgent/Aevatar.GAgents.MultiAIChatGAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.PsiOmni/Aevatar.GAgents.PsiOmni.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.PsiOmni.Plugins/Aevatar.GAgents.PsiOmni.Plugins.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Pumpfun/Aevatar.GAgents.Pumpfun.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Router/Aevatar.GAgents.Router.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.SemanticKernel/Aevatar.GAgents.SemanticKernel.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.SocialGAgent/Aevatar.GAgents.SocialGAgent.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Telegram/Aevatar.GAgents.Telegram.csproj"
+    "aevatar-gagents/src/Aevatar.GAgents.Twitter/Aevatar.GAgents.Twitter.csproj"
+)
+
 # 统计信息
 TOTAL_FILES=0
 MODIFIED_FILES=0
 
-# 查找所有 .csproj 文件（排除 aevatar-station 目录）
-while IFS= read -r -d '' CSPROJ_FILE; do
-    ((TOTAL_FILES++))
-    MODIFIED=false
+# 处理单个项目文件的函数
+process_csproj() {
+    local CSPROJ_FILE=$1
+    local PACKAGE_NAMES=("${!2}")
+    local PACKAGE_PATHS=("${!3}")
+    local MODIFIED=false
     
     # 获取项目文件的目录
     PROJECT_DIR=$(dirname "$CSPROJ_FILE")
@@ -120,8 +174,37 @@ while IFS= read -r -d '' CSPROJ_FILE; do
     if [ "$MODIFIED" = true ]; then
         ((MODIFIED_FILES++))
     fi
-    
-done < <(find "$ROOT_PATH" -name "*.csproj" -type f ! -path "*/aevatar-station/*" -print0)
+}
+
+# 处理 aevatar-workshop 中的项目文件
+echo ""
+echo "📁 处理 aevatar-workshop 项目..."
+while IFS= read -r -d '' CSPROJ_FILE; do
+    ((TOTAL_FILES++))
+    # 只处理 GAgents 相关的包
+    process_csproj "$CSPROJ_FILE" GAGENTS_PACKAGE_NAMES[@] GAGENTS_PACKAGE_PATHS[@]
+done < <(find "$ROOT_PATH/aevatar-workshop" -name "*.csproj" -type f -print0)
+
+# 处理 aevatar-station/station 中的项目文件
+echo ""
+echo "📁 处理 aevatar-station/station 项目..."
+# 合并 Core 和 GAgents 包
+ALL_PACKAGE_NAMES=("${CORE_PACKAGE_NAMES[@]}" "${GAGENTS_PACKAGE_NAMES[@]}")
+ALL_PACKAGE_PATHS=("${CORE_PACKAGE_PATHS[@]}" "${GAGENTS_PACKAGE_PATHS[@]}")
+while IFS= read -r -d '' CSPROJ_FILE; do
+    ((TOTAL_FILES++))
+    # 处理所有包（Core 和 GAgents）
+    process_csproj "$CSPROJ_FILE" ALL_PACKAGE_NAMES[@] ALL_PACKAGE_PATHS[@]
+done < <(find "$ROOT_PATH/aevatar-station/station" -name "*.csproj" -type f -print0)
+
+# 处理其他目录中的项目文件（排除 aevatar-station 和 aevatar-workshop）
+echo ""
+echo "📁 处理其他项目..."
+while IFS= read -r -d '' CSPROJ_FILE; do
+    ((TOTAL_FILES++))
+    # 处理所有包（Core 和 GAgents）
+    process_csproj "$CSPROJ_FILE" ALL_PACKAGE_NAMES[@] ALL_PACKAGE_PATHS[@]
+done < <(find "$ROOT_PATH" -name "*.csproj" -type f ! -path "*/aevatar-station/*" ! -path "*/aevatar-workshop/*" ! -path "*/aevatar-gagents/*" -print0)
 
 echo ""
 echo "✨ 完成！"
