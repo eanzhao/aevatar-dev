@@ -65,8 +65,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.Workshop.GAgent", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.Workshop.Host", "aevatar-workshop\src\Aevatar.Workshop.Host\Aevatar.Workshop.Host.csproj", "{057FBEE7-E1EC-457C-A2B5-9C5FA17574F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.Workshop.AIRouterWorkflowGAgent", "aevatar-workshop\src\Aevatar.Workshop.AIRouterWorkflowGAgent\Aevatar.Workshop.AIRouterWorkflowGAgent.csproj", "{11605857-0959-406A-8563-DAB09E78772D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar", "aevatar-station\framework\src\Aevatar\Aevatar.csproj", "{0A991A0A-38E9-4D03-9032-9E0E6B063FB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.SignalR", "aevatar-station\signalR\src\Aevatar.SignalR\Aevatar.SignalR.csproj", "{D195AE4A-FB1D-46E7-9832-A94C005833E1}"
@@ -124,6 +122,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aevatar.MongoDB", "aevatar-station\station\src\Aevatar.MongoDB\Aevatar.MongoDB.csproj", "{92A02C0B-AB10-405D-A6DC-025E2F228837}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2E.Grains", "aevatar-station\station\samples\E2E.Grains\E2E.Grains.csproj", "{201C4057-F95A-4809-A57D-BB1E790D92E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resource", "resource", "{42697417-8FD1-4925-A248-522EAEC4E123}"
+	ProjectSection(SolutionItems) = preProject
+		aevatar-gagents\Directory.Build.props = aevatar-gagents\Directory.Build.props
+		aevatar-gagents\Directory.Packages.props = aevatar-gagents\Directory.Packages.props
+	EndProjectSection
 EndProject
 
 Global
@@ -224,8 +228,6 @@ Global
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 								{7A7A76B2-B978-4B64-841F-0FE1F15602C2}.Release|Any CPU.Build.0 = Release|Any CPU
-					{11605857-0959-406A-8563-DAB09E78772D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-					{11605857-0959-406A-8563-DAB09E78772D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 					{C531EDB6-7441-49A4-B250-75718BEDB2C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 					{C531EDB6-7441-49A4-B250-75718BEDB2C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 					{B52800ED-309F-48D5-965F-3154F47B2477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -288,7 +290,6 @@ Global
 								{C531EDB6-7441-49A4-B250-75718BEDB2C7} = {03F85D7E-68DE-4435-9AEE-1387FBAC563B}
 								{B52800ED-309F-48D5-965F-3154F47B2477} = {03F85D7E-68DE-4435-9AEE-1387FBAC563B}
 								{057FBEE7-E1EC-457C-A2B5-9C5FA17574F8} = {03F85D7E-68DE-4435-9AEE-1387FBAC563B}
-								{11605857-0959-406A-8563-DAB09E78772D} = {03F85D7E-68DE-4435-9AEE-1387FBAC563B}
 								{0A991A0A-38E9-4D03-9032-9E0E6B063FB7} = {7BCCAB62-8E07-46AB-8C20-CD40539DE2C0}
 								{D195AE4A-FB1D-46E7-9832-A94C005833E1} = {C609F7AC-803B-477A-8E53-16048A847B90}
 								{443008B7-5D59-449B-A644-D4573055F8F8} = {B831530D-8FE1-49ED-8C0B-76435C7D3CA8}
@@ -321,5 +322,6 @@ Global
 					{76761279-6193-4123-995B-CE7DC3751717} = {D34A1495-4514-44BF-BCA5-6DA3D3BDE3C2}
 					{92A02C0B-AB10-405D-A6DC-025E2F228837} = {D34A1495-4514-44BF-BCA5-6DA3D3BDE3C2}
 					{201C4057-F95A-4809-A57D-BB1E790D92E9} = {D34A1495-4514-44BF-BCA5-6DA3D3BDE3C2}
+					{42697417-8FD1-4925-A248-522EAEC4E123} = {B831530D-8FE1-49ED-8C0B-76435C7D3CA8}
 				EndGlobalSection
 EndGlobal

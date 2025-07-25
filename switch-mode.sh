@@ -179,10 +179,13 @@ process_csproj() {
 # 处理 aevatar-workshop 中的项目文件
 echo ""
 echo "📁 处理 aevatar-workshop 项目..."
+# 合并 Core 和 GAgents 包，以便 workshop 可以引用所有包
+WORKSHOP_PACKAGE_NAMES=("${CORE_PACKAGE_NAMES[@]}" "${GAGENTS_PACKAGE_NAMES[@]}")
+WORKSHOP_PACKAGE_PATHS=("${CORE_PACKAGE_PATHS[@]}" "${GAGENTS_PACKAGE_PATHS[@]}")
 while IFS= read -r -d '' CSPROJ_FILE; do
     ((TOTAL_FILES++))
-    # 只处理 GAgents 相关的包
-    process_csproj "$CSPROJ_FILE" GAGENTS_PACKAGE_NAMES[@] GAGENTS_PACKAGE_PATHS[@]
+    # 处理所有包（Core 和 GAgents）
+    process_csproj "$CSPROJ_FILE" WORKSHOP_PACKAGE_NAMES[@] WORKSHOP_PACKAGE_PATHS[@]
 done < <(find "$ROOT_PATH/aevatar-workshop" -name "*.csproj" -type f -print0)
 
 # 处理 aevatar-station/station 中的项目文件
