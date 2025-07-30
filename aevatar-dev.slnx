@@ -1,0 +1,22 @@
+<Solution>
+    <Folder Name="/aevatar-framework/">
+        <Project Path="aevatar-station/framework/src/Aevatar.Core.Abstractions/Aevatar.Core.Abstractions.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.Core/Aevatar.Core.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.EventSourcing.Core/Aevatar.EventSourcing.Core.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.EventSourcing.MongoDB/Aevatar.EventSourcing.MongoDB.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.Plugins/Aevatar.Plugins.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.PermissionManagement/Aevatar.PermissionManagement.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar.TestKit/Aevatar.TestKit.csproj" />
+        <Project Path="aevatar-station/framework/src/Aevatar/Aevatar.csproj" />
+    </Folder>
+    <Folder Name="/aevatar-gagents/">
+    </Folder>
+    <Folder Name="/aevatar-signalR/">
+    </Folder>
+    <Folder Name="/aevatar-station/">
+    </Folder>
+    <Folder Name="/aevatar-workshop/">
+    </Folder>
+    <Folder Name="/solution-items/">
+    </Folder>
+</Solution>
